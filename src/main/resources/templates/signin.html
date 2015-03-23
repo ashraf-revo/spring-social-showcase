@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:social="http://spring.io/springsocial"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorator="layout">
+	<head>
+		<title>Spring Social Showcase</title>
+		<link rel="stylesheet" th:href="@{/page.css}" type="text/css" media="screen"></link>
+		<link rel="stylesheet" th:href="@{/form.css}" type="text/css" media="screen"></link>
+		<link rel="stylesheet" th:href="@{/messages/messages.css}" type="text/css" media="screen"></link>
+	</head>
+	<body>
+		<div id="header">
+			<h1><a th:href="@{/}">Spring Social Showcase</a></h1>
+		</div>
+		
+		<div id="leftNav">
+			Left nav menu
+		</div>
+		
+		<div id="content" layout:fragment="content">
+			<form id="signin" th:action="@{/signin/authenticate}" method="post">
+				<input type="hidden" name="_csrf" th:value="${_csrf.token}"></input>
+				<div class="formInfo">
+			  		<div class="error" th:if="${param.error eq 'bad_credentials'}">
+			  			Your sign in information was incorrect.
+			  			Please try again or <a th:href="@{/signup}">sign up</a>.
+			  		</div>
+			  		<div class="error" th:if="${param.error eq 'multiple_users'}">
+			  			Multiple local accounts are connected to the provider account.
+			  			Try again with a different provider or with your username and password.
+			  		</div>
+				</div>
+				<fieldset>
+					<label for="login">Username</label>
+					<input id="login" name="username" type="text" size="25"></input>
+					<label for="password">Password</label>
+					<input id="password" name="password" type="password" size="25"></input>
+				</fieldset>
+				<button type="submit">Sign In</button>
+				
+				<p>Some test user/password pairs you may use are:</p>
+				<ul>
+					<li>habuma/tacos</li>
+					<li>rclarkson/atlanta</li>
+				</ul>
+				
+				<p>Or you can <a th:href="@{/signup}">signup</a> with a new account.</p>
+			</form>
+
+			<!-- TWITTER SIGNIN -->
+			<form id="tw_signin" th:action="@{/signin/twitter}" method="POST">
+				<input type="hidden" name="_csrf" th:value="${_csrf.token}"></input>
+				<button type="submit"><img th:src="@{/social/twitter/sign-in-with-twitter-d.png}"></img></button>
+			</form>
+		
+			<!-- FACEBOOK SIGNIN -->
+			<form name="fb_signin" id="fb_signin" th:action="@{/signin/facebook}" method="POST">
+				<input type="hidden" name="_csrf" th:value="${_csrf.token}"></input>
+				<input type="hidden" name="scope" value="read_stream,read_mailbox,read_page_mailboxes,rsvp_event,email,ads_management,read_insights,ads_read,manage_notifications,read_friendlists,manage_pages,publish_actions,user_birthday,user_religion_politics,user_relationships,user_relationship_details,user_hometown,user_location,user_likes,user_interests,user_education_history,user_work_history,user_website,user_groups,user_events,user_photos,user_videos,user_friends,user_about_me,user_status,user_games_activity,user_tagged_places"></input>
+				<button type="submit"><img th:src="@{/social/facebook/sign-in-with-facebook.png}"></img></button>
+			</form>
+		
+			<!-- LINKEDIN SIGNIN -->
+			<form name="li_signin" id="li_signin" th:action="@{/signin/linkedin}" method="POST">
+				<input type="hidden" name="_csrf" th:value="${_csrf.token}"></input>
+				<button type="submit">Sign In with LinkedIn</button>
+			</form>
+		</div>		
+	</body>
+</html>
